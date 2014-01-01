@@ -1,0 +1,1 @@
+json.wager_amount params[:wager]

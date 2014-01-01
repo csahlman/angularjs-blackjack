@@ -18,4 +18,5 @@
 //= require blackjack/blackjack
 //= require lib/csrf
 //= require_tree ./blackjack/controllers
+//= require_tree ./blackjack/directives
 

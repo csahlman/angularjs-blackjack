@@ -108,7 +108,7 @@ body {
     font-family:sans-serif;
     padding:1em;
 }
-#yourHand {
+#your_hand {
     overflow:hidden;
     position:relative;
     border:1px solid #056B42;
@@ -141,8 +141,8 @@ body {
 }
 .card:first-child {margin-left:0;}
 
-.Spades, .Clubs {color:black}
-.Diamonds, .Hearts {color:red}
+.spades, .clubs {color:black}
+.diamonds, .hearts {color:red}
 
 #deal {
     -moz-box-shadow:inset 0px -1px 4px 3px #9f71d1;
@@ -176,7 +176,7 @@ body {
     background-color:#3a096a;
 }
 
-#hitMe {
+#hit_me {
     -moz-box-shadow:inset 0px -1px 4px 3px #69d1a7;
     -webkit-box-shadow:inset 0px -1px 4px 3px #69d1a7;
     box-shadow:inset 0px -1px 4px 3px #69d1a7;
@@ -197,17 +197,17 @@ body {
     text-decoration:none;
     text-shadow:1px 1px 0px #287b58;
 }
-#hitMe:hover {
+#hit_me:hover {
     background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #056b42), color-stop(1, #10a469) );
     background:-moz-linear-gradient( center top, #056b42 5%, #10a469 100% );
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#056b42', endColorstr='#10a469');
     background-color:#056b42;
 }
-#hitMe:active {
+#hit_me:active {
     position:relative;
     top:1px;
 }
-#double, #stand, #hitMe, #split {
+#double, #stand, #hit_me, #split {
     -moz-box-shadow:inset 0px -1px 4px 3px #f8ac7d;
     -webkit-box-shadow:inset 0px -1px 4px 3px #f8ac7d;
     box-shadow:inset 0px -1px 4px 3px #f8ac7d;
@@ -228,19 +228,19 @@ body {
     text-decoration:none;
     text-shadow:1px 1px 0px #9d4307;
 }
-#double:hover, #stand:hover, #hitMe:hover, #split:hover {
+#double:hover, #stand:hover, #hit_me:hover, #split:hover {
     background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f16e17), color-stop(1, #f89350) );
     background:-moz-linear-gradient( center top, #f16e17 5%, #f89350 100% );
     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f16e17', endColorstr='#f89350');
     background-color:#f16e17;
 }
-#double:active, #stand:active, #hitMe:active, #split:active {
+#double:active, #stand:active, #hit_me:active, #split:active {
     position:relative;
     top:1px;
 }
 
 
-#yourScore .digits {font-weight:700}
+#your_score .digits {font-weight:700}
 #wins {color:#056B42;}
 #losses {color:#F16D17;}
 

@@ -1,4 +1,7 @@
 class Card < ActiveRecord::Base
+  belongs_to :hand
+  belongs_to :round
+
 
   def get_suit 
     case self.suit

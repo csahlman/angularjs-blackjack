@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140101004723) do
+ActiveRecord::Schema.define(version: 20140101134644) do
 
   create_table "cards", force: true do |t|
     t.integer  "hand_id"
@@ -46,5 +46,22 @@ ActiveRecord::Schema.define(version: 20140101004723) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "users", force: true do |t|
+    t.string   "password_digest"
+    t.boolean  "guest",           default: true
+    t.string   "name"
+    t.string   "email"
+    t.string   "remember_token"
+    t.integer  "funds",           default: 1000
+    t.boolean  "high_roller"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "money_in_play"
+    t.integer  "wager_amount",    default: 50
+  end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true
+  add_index "users", ["remember_token"], name: "index_users_on_remember_token", unique: true
 
 end
