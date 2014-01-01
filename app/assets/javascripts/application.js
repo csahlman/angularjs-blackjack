@@ -10,7 +10,12 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require jquery
-//= require jquery_ujs
-//= require turbolinks
-//= require_tree .
+//= require lib/jquery.min
+//= require lib/angular.min
+//= require lib/angular-animate
+//= require lib/angular-cookies.min
+//= require lib/promise_tracker
+//= require blackjack/blackjack
+//= require lib/csrf
+//= require_tree ./blackjack/controllers
+

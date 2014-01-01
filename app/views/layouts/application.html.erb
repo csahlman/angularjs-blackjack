@@ -1,14 +1,40 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="blackjack">
 <head>
-  <title>WebsocketBlackjack</title>
-  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <title>Realtime Shitty Blackjack</title>
+  <%= stylesheet_link_tag    "application", media: "all" %>
+  <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
 </head>
 <body>
 
-<%= yield %>
+
+  <div class="container" ng-controller="BlackjackCtrl">
+    <div class="sidebar">
+
+    </div>
+
+    <div class="main">
+      <h1>Shitty Blackjack</h1>
+      <h4>How much money would you like to retrieve from the bank?</h4>
+      <form name="moneyRequestForm">
+        <input ng-model="requestAmount" type="text" required>
+        <button ng-click="requestMoney()">Request Money</button>
+      </form>
+
+      <button ng-click="startGame()" ng-show="readyToPlay()">
+
+      </button>
+
+      <div class="board">
+
+
+      </div>
+
+    </div>
+
+  </div>
+<%#= yield %>
 
 </body>
 </html>
