@@ -56,12 +56,13 @@
  
       <div class="board" ng-show="gameStarted">
         <div class="dealer_board">
-          <div class="card facedown">
+          <div class="card facedown" ng-hide="ceaseAction">
 
           </div>
           <span ng-repeat="playerCard in dealerHand.cards">
             <blackjack-card index="$index" card="playerCard"></blackjack-card>
           </span>
+          {{dealerHand.score}}
         </div>
 
 
@@ -70,14 +71,14 @@
             <!-- <pre>{{handCard|json}}</pre> -->
             <blackjack-card index="$index" card="handCard"></blackjack-card>
           </span>
+          <h3 style="top: 30px;">Score: {{hand.score}}</h3>
         </div>
         <!-- <player-hand ng-repeat="hand in playerHands" hand="hand"></player-hand> -->
 
-        <h3>Score: {{currentScore()}}</h3>
-        <div id="hit_me" ng-show="eligibleToHit()" ng-click="hit()">Hit Me</div>
-        <div id="double" ng-show="eligibleToDouble()" ng-click="doubleDown()">Double Down</div>
-        <div id="stand" ng-show="eligibleToStand()" ng-click="stand()">Stand</div>
-        <div id="split" ng-show="eligibleToSplit()" ng-click="split()"></div>
+        <button id="hit_me" ng-show="notBusted()" ng-click="hit()" ng-disabled="ceaseAction">Hit Me</button>
+        <button id="double" ng-show="eligibleToDouble() " ng-click="doubleDown()" ng-disabled="ceaseAction">Double Down</button>
+        <button id="stand" ng-show="notBusted()" ng-click="stand()" ng-disabled="ceaseAction">Stand</button>
+        <button id="split" ng-show="eligibleToSplit()" ng-click="split()" ng-disabled="ceaseAction">Split</button>
       </div>
 
     </div>

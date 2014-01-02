@@ -2,33 +2,6 @@ class Card < ActiveRecord::Base
   belongs_to :hand
   belongs_to :round
 
-
-  def get_suit 
-    case self.suit
-    when 1
-      return "Hearts"
-    when 2      
-      return "Clubs"
-    when 3
-      return "Spades"
-    when 4
-      return "Diamonds"
-    end 
-  end
-  
-  def get_symbol
-    case self.suit
-    when 1
-      return "&hearts;"
-    when 2      
-      return "&clubs;"
-    when 3
-      return "&spades;"
-    when 4
-      return "&diams;"
-    end 
-  end  
-
   def get_value
     if self.value > 10
       return 10

@@ -4,7 +4,7 @@ angular.module('blackjack').controller 'BlackjackCtrl', ($scope, $http, Blackjac
   $scope.dealerHand = null
   $scope.playerHands = []
   $scope.user = {}
-  $scope.currentHand = null
+  $scope.currentHandIndex = null
   $scope.roundNumber = 0
   $scope.baseWager = 30
   $scope.bank = 0
@@ -16,9 +16,65 @@ angular.module('blackjack').controller 'BlackjackCtrl', ($scope, $http, Blackjac
   $scope.wager = 50
   $scope.midRound = false
   $scope.roundHash = null
+
+  $scope.$watch 'currentHandIndex', (newVal) ->
+    if $scope.midRound && (newVal + 1) > $scope.playerHands.length
+      $scope.ceaseAction = true 
+      $scope.dealDealerHand()
+
+  $scope.dealDealerHand = ->
+    $http
+      url: '/blackjack/deal_dealer_hand'
+      method: 'POST'
+      data: {}
+    .success (data) ->
+      $scope.dealerHand = data
+      $scope.currentHandIndex = null
+      $scope.midRound = false
+      $scope.bank = data.bank
+      $scope.moneyInPlay = 0
+      $scope.roundNumber++
+
+  $scope.stand = ->
+    $http
+      url: '/blackjack/stand'
+      method: 'POST'
+      data: {}
+    .success (data) ->
+      $scope.currentHandIndex++
+
+  $scope.hit = ->
+    $http 
+      url: '/blackjack/hit_me'
+      method: 'POST'
+      data: {}
+    .success (data) ->
+      $scope.playerHands[$scope.currentHandIndex] = data
+
+  $scope.createSplit = ->
+    $http
+      url: '/blackjack/split'
+      method: 'POST'
+      data: {}
+    .success (data) ->
+      $scope.playerHands[$scope.currentHandIndex] = data[0]
+      $scope.playerHands.splice($scope.currentHandIndex + 1, 0, data[1])
+
+  $scope.currentHand = ->
+    if $scope.playerHands[$scope.currentHandIndex]?
+      $scope.playerHands[$scope.currentHandIndex].cards
+    else
+      null
   
-  $scope.eligibleToHit = ->
+  $scope.notBusted = ->
     $scope.currentScore() < 21
+
+  $scope.eligibleToSplit = ->
+    if $scope.midRound && $scope.currentHand()?
+      cards = $scope.currentHand()
+      cards.length == 2 && BlackjackRules.getCardValue(cards[0]) == BlackjackRules.getCardValue(cards[1])
+    else
+      false
 
   $scope.updateName = ->
     $http
@@ -34,28 +90,15 @@ angular.module('blackjack').controller 'BlackjackCtrl', ($scope, $http, Blackjac
       alert('update failed, try again')
 
   $scope.currentScore = ->
-    score = BlackjackRules.getHandScore($scope.currentHand.cards)
-    console.log score
-    if isNaN(score)
-      return 0
-    else
+    if $scope.midRound && $scope.currentHand()
+      score = BlackjackRules.getHandScore($scope.currentHand())
       score
+    else
+      null
 
   $scope.user = (user) ->
     $scope.currentUser = user
     $scope.setName = true if $scope.currentUser.name?
-
-
-  $scope.readyToPlay = ->
-    $scope.userName? && 
-      $scope.roundNumber == 0 &&
-      $scope.bank > 0 &&
-      $scope.baseWager <= $scope.bank
-
-  $scope.currentScore = ->
-    score = 0
-    aces = 0
-
 
   $scope.startGame = ->
     $scope.gameStarted = true
@@ -69,8 +112,8 @@ angular.module('blackjack').controller 'BlackjackCtrl', ($scope, $http, Blackjac
       data:
         wager: $scope.wager
     .success (data) ->
-      $scope.currentHand = data.player_hand
       $scope.playerHands = [data.player_hand]
+      $scope.currentHandIndex = 0
       $scope.dealerHand = data.dealer_hand
       $scope.midRound = true
 

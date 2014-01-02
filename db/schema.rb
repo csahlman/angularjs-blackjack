@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140101134644) do
+ActiveRecord::Schema.define(version: 20140102155243) do
 
   create_table "cards", force: true do |t|
     t.integer  "hand_id"
@@ -30,11 +30,12 @@ ActiveRecord::Schema.define(version: 20140101134644) do
     t.integer  "round_id"
     t.integer  "user_id"
     t.boolean  "dealer"
-    t.boolean  "current",    default: true
+    t.boolean  "current",    default: false
     t.integer  "score"
     t.boolean  "played"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "dealt",      default: false
   end
 
   add_index "hands", ["round_id"], name: "index_hands_on_round_id"

@@ -22,4 +22,8 @@ module SessionsHelper
     session[:user] = nil  
   end
 
+  def current_round
+    @round ||= Round.find_by_id session[:round] 
+  end
+
 end
