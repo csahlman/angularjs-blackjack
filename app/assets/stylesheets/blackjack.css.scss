@@ -108,6 +108,13 @@ body {
     font-family:sans-serif;
     padding:1em;
 }
+
+.dealer_board {
+  height: 6em;
+  margin-bottom: 50px;
+  width: 800px;
+}
+
 #your_hand {
     overflow:hidden;
     position:relative;
@@ -139,7 +146,7 @@ body {
   margin-right:-1em;
  font-family:serif;
 }
-.card:first-child {margin-left:0;}
+// .card:first-child {margin-left:0;}
 
 .spades, .clubs {color:black}
 .diamonds, .hearts {color:red}

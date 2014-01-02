@@ -1,7 +1,7 @@
-angular.module('blackjack').controller 'BlackjackCtrl', ($scope, $http) ->
+angular.module('blackjack').controller 'BlackjackCtrl', ($scope, $http, BlackjackRules) ->
 
   $scope.setName = false
-  $scope.dealerHand = {}
+  $scope.dealerHand = null
   $scope.playerHands = []
   $scope.user = {}
   $scope.currentHand = null
@@ -16,12 +16,9 @@ angular.module('blackjack').controller 'BlackjackCtrl', ($scope, $http) ->
   $scope.wager = 50
   $scope.midRound = false
   $scope.roundHash = null
-
-  # $scope.$watch('[currentUser.bank, currentUser.money_in_play]', (newVal) ->
-  #   console.log newVal
-  #   # $scope.$digest()
-  # , true)
-
+  
+  $scope.eligibleToHit = ->
+    $scope.currentScore() < 21
 
   $scope.updateName = ->
     $http
@@ -36,6 +33,14 @@ angular.module('blackjack').controller 'BlackjackCtrl', ($scope, $http) ->
       $scope.user.userName = undefined
       alert('update failed, try again')
 
+  $scope.currentScore = ->
+    score = BlackjackRules.getHandScore($scope.currentHand.cards)
+    console.log score
+    if isNaN(score)
+      return 0
+    else
+      score
+
   $scope.user = (user) ->
     $scope.currentUser = user
     $scope.setName = true if $scope.currentUser.name?
@@ -48,6 +53,9 @@ angular.module('blackjack').controller 'BlackjackCtrl', ($scope, $http) ->
       $scope.baseWager <= $scope.bank
 
   $scope.currentScore = ->
+    score = 0
+    aces = 0
+
 
   $scope.startGame = ->
     $scope.gameStarted = true
@@ -61,8 +69,8 @@ angular.module('blackjack').controller 'BlackjackCtrl', ($scope, $http) ->
       data:
         wager: $scope.wager
     .success (data) ->
+      $scope.currentHand = data.player_hand
       $scope.playerHands = [data.player_hand]
-      console.log $scope.playerHands
       $scope.dealerHand = data.dealer_hand
       $scope.midRound = true
 

@@ -14,9 +14,11 @@
 //= require lib/angular.min
 //= require lib/angular-animate
 //= require lib/angular-cookies.min
+//= require lib/angular-sanitize
 //= require lib/promise_tracker
 //= require blackjack/blackjack
 //= require lib/csrf
 //= require_tree ./blackjack/controllers
 //= require_tree ./blackjack/directives
+//= require_tree ./blackjack/services
 

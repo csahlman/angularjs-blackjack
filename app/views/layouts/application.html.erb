@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html ng-app="blackjack">
 <head>
-  <title>Realtime Shitty Blackjack</title>
+  <title>Realtime Blackjack</title>
   <%= stylesheet_link_tag    "application", media: "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
@@ -50,24 +50,31 @@
 
     <div class="main" ng-show="gameStarted">
 
-      <h1>Shitty Blackjack</h1>
+      <h1>Blackjack</h1>
 
 
  
       <div class="board" ng-show="gameStarted">
-        <div>
-          <!-- <card ng-repeat="card in hand.cards" index="$index" card="card"></card> -->
-        </div>
+        <div class="dealer_board">
+          <div class="card facedown">
 
-        <div ng-repeat="hand in playerHands" class="hand">
-          <span ng-repeat="card in hand.cards">
-            <card index="$index" value="card"></card>
+          </div>
+          <span ng-repeat="playerCard in dealerHand.cards">
+            <blackjack-card index="$index" card="playerCard"></blackjack-card>
           </span>
         </div>
 
-        <player-hand ng-repeat="hand in playerHands" hand="hand"></player-hand>
 
-        <div id="hit_me" ng-show="currentScore() < 21" ng-click="hit()">Hit Me</div>
+        <div ng-repeat="hand in playerHands" class="player_board">
+          <span ng-repeat="handCard in hand.cards">
+            <!-- <pre>{{handCard|json}}</pre> -->
+            <blackjack-card index="$index" card="handCard"></blackjack-card>
+          </span>
+        </div>
+        <!-- <player-hand ng-repeat="hand in playerHands" hand="hand"></player-hand> -->
+
+        <h3>Score: {{currentScore()}}</h3>
+        <div id="hit_me" ng-show="eligibleToHit()" ng-click="hit()">Hit Me</div>
         <div id="double" ng-show="eligibleToDouble()" ng-click="doubleDown()">Double Down</div>
         <div id="stand" ng-show="eligibleToStand()" ng-click="stand()">Stand</div>
         <div id="split" ng-show="eligibleToSplit()" ng-click="split()"></div>

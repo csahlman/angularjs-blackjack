@@ -3,5 +3,5 @@ json.player_hand do
 end
 
 json.dealer_hand do 
-  json.cards @dealer_hand.cards.first, :value, :suit
+  json.cards [@dealer_hand.cards.first], :value, :suit
 end
