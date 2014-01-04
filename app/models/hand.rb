@@ -18,5 +18,9 @@ class Hand < ActiveRecord::Base
     score
   end
 
+  def blackjack?
+    cards.length == 2 && score == 21 
+  end
+
 
 end

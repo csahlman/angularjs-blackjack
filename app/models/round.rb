@@ -8,29 +8,32 @@ class Round < ActiveRecord::Base
   end
 
   def deal_dealer_hand
-    cards = self.cards.last(2)
-    hand = self.hands.create(card_ids: cards.map(&:id), user_id: nil)
+    hand = self.hands.create
+    2.times { deal_card!(hand) }
     hand.update_attribute(:dealer, true)
-    cards.map { |card| card.update_attribute(:round_id, nil) } 
+    hand.update_attribute(:current, false)
+    hand.update_attribute(:blackjack, true) if hand.score == 21
     hand
   end
 
-  def deal_player_hand(user)
-    cards = self.cards.first(2)
-    hand = self.hands.create(card_ids: cards.map(&:id), user_id: user.id)
+  def deal_player_hand(user, wager)
+    hand = self.hands.create(user_id: user.id, wager: wager)
+    2.times { deal_card!(hand) }
     hand.update_attribute(:current, true)
-    cards.map { |card| card.update_attribute(:round_id, nil) } 
+    hand.update_attribute(:blackjack, true) if hand.score == 21
     hand
   end
 
   def finished?
-    current_hand.nil? && dealer_hand.present? && dealer_hand.score > 17
+    self.current_hand.nil? && dealer_hand.present? && dealer_hand.score > 17
   end
 
   def deal_card!(hand)
-    card = self.cards.first
+    puts "#{hand.id} - #{self.cards_dealt}"
+    card = self.cards[self.cards_dealt]
     hand.cards << card
     card.update_attribute(:round_id, nil)
+    self.update_attribute(:cards_dealt, self.cards_dealt + 1)
     card
   end
 
@@ -44,16 +47,50 @@ class Round < ActiveRecord::Base
 
   def end_hand!
     self.current_hand.update_attribute(:current, false) if self.current_hand.present?
+    self.current_hand.update_attribute(:dealt, true) if self.current_hand.present?
+  end
+
+  def evaluate_round!(dealer_score, user)
+    net_difference = 0
+    self.hands.where(dealer: nil).each do |hand|
+      if hand.score > 21
+        net_difference -= hand.wager
+      elsif dealer_score > 21 || dealer_score < hand.score
+        if hand.blackjack
+          net_difference += (hand.wager * 1.5)
+        else
+          net_difference += hand.wager
+        end
+      elsif dealer_score > hand.score
+        net_difference -= hand.wager
+      end
+    end
+    user.update_attribute(:funds, user.funds + net_difference)
+  end
+
+  def split_hand!
+    last_card = self.current_hand.cards.last
+    last_hand = self.hands.create(user_id: current_hand.user_id, wager: current_hand.wager)
+    last_card.update_attribute(:hand_id, last_hand.id)
+    deal_card!(last_hand)
+    deal_card!(current_hand)
+    [current_hand, last_hand]
   end
 
   def run_out_dealer_board!
-    dealer_hand.update_attribute(:dealt, true)
     score = dealer_hand.score
     while score < 17
       deal_card!(dealer_hand)
       score = dealer_hand.score
     end
     dealer_hand
+  end
+
+
+  def double_down!
+    current_hand.update_attribute(:wager, current_hand.wager * 2)
+    deal_card!(current_hand)
+    current_hand
   end
 
   def create_decks(num_decks = 1)

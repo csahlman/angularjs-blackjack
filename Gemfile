@@ -43,6 +43,11 @@ group :production do
   gem 'pg'
 end
 
+gem 'ngmin-rails'
+
+gem "non-stupid-digest-assets"
+
+
 # Use unicorn as the app server
 # gem 'unicorn'
 

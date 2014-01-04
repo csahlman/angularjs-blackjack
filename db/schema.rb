@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140102155243) do
+ActiveRecord::Schema.define(version: 20140104150410) do
 
   create_table "cards", force: true do |t|
     t.integer  "hand_id"
@@ -30,22 +30,28 @@ ActiveRecord::Schema.define(version: 20140102155243) do
     t.integer  "round_id"
     t.integer  "user_id"
     t.boolean  "dealer"
-    t.boolean  "current",    default: false
+    t.boolean  "current",          default: true
     t.integer  "score"
     t.boolean  "played"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "dealt",      default: false
+    t.boolean  "dealt",            default: false
+    t.boolean  "blackjack",        default: false
+    t.boolean  "bought_insurance", default: false
+    t.integer  "net_payout",       default: 0
+    t.integer  "wager"
   end
 
   add_index "hands", ["round_id"], name: "index_hands_on_round_id"
   add_index "hands", ["user_id"], name: "index_hands_on_user_id"
 
   create_table "rounds", force: true do |t|
-    t.boolean  "current",    default: true
+    t.boolean  "current",     default: true
     t.string   "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "evaluated",   default: false
+    t.integer  "cards_dealt", default: 0
   end
 
   create_table "users", force: true do |t|

@@ -54,6 +54,9 @@ GEM
     mime-types (1.25.1)
     minitest (5.2.0)
     multi_json (1.8.2)
+    ngmin-rails (0.4.0)
+      rails (>= 3.1)
+    non-stupid-digest-assets (1.0.1)
     pg (0.17.0)
     polyglot (0.3.3)
     rack (1.5.2)
@@ -120,6 +123,8 @@ DEPENDENCIES
   bcrypt-ruby (~> 3.1.2)
   coffee-rails (~> 4.0.0)
   jbuilder (~> 1.2)
+  ngmin-rails
+  non-stupid-digest-assets
   pg
   rails (= 4.1.0.beta1)
   sass-rails (~> 4.0.0.rc1)

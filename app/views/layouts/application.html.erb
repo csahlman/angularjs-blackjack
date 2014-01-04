@@ -26,9 +26,7 @@
     <div class="sidebar">
       Welcome to the party <br> {{currentUser.name}} <br>
 
-      Bank: {{currentUser.bank | currency}} <br>
-
-      In Play: {{currentUser.money_in_play | currency}}
+      Bank: {{bank | currency}} <br>
 
       <div ng-show="gameStarted">
         Wager: {{wager | currency}}
@@ -56,13 +54,13 @@
  
       <div class="board" ng-show="gameStarted">
         <div class="dealer_board">
-          <div class="card facedown" ng-hide="ceaseAction">
+          <div class="card facedown" ng-hide="showDealerHand && ceaseAction">
 
           </div>
           <span ng-repeat="playerCard in dealerHand.cards">
             <blackjack-card index="$index" card="playerCard"></blackjack-card>
           </span>
-          {{dealerHand.score}}
+          <h3 class="scoreboard" ng-show="ceaseAction">Dealer Score: {{dealerHand.score}}</h3>
         </div>
 
 
@@ -71,14 +69,16 @@
             <!-- <pre>{{handCard|json}}</pre> -->
             <blackjack-card index="$index" card="handCard"></blackjack-card>
           </span>
-          <h3 style="top: 30px;">Score: {{hand.score}}</h3>
+          <h1 class="current_hand" ng-show="currentBoard(hand)">Playing This Hand</h1>
+          <h3 class="scoreboard">Score: {{hand.score}}</h3>
         </div>
         <!-- <player-hand ng-repeat="hand in playerHands" hand="hand"></player-hand> -->
 
-        <button id="hit_me" ng-show="notBusted()" ng-click="hit()" ng-disabled="ceaseAction">Hit Me</button>
-        <button id="double" ng-show="eligibleToDouble() " ng-click="doubleDown()" ng-disabled="ceaseAction">Double Down</button>
-        <button id="stand" ng-show="notBusted()" ng-click="stand()" ng-disabled="ceaseAction">Stand</button>
-        <button id="split" ng-show="eligibleToSplit()" ng-click="split()" ng-disabled="ceaseAction">Split</button>
+        <button id="hit_me" ng-show="notBusted() && !ceaseAction" ng-click="hit()" ng-disabled="ceaseAction">Hit Me</button>
+        <button id="stand" ng-show="notBusted() && !ceaseAction" ng-click="stand()" ng-disabled="ceaseAction">Stand</button>
+        <button id="double" ng-show="eligibleToDouble() && !ceaseAction" ng-click="doubleDown()" ng-disabled="ceaseAction">Double Down</button>
+        <button id="split" ng-show="eligibleToSplit() && !ceaseAction" ng-click="split()" ng-disabled="ceaseAction">Split</button>
+        <button id="hit_me" ng-click="nextHand()" ng-disabled="!ceaseAction" ng-show="ceaseAction">Start Next Hand {{counter}}</button>
       </div>
 
     </div>
