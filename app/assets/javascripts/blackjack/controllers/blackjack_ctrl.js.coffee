@@ -50,8 +50,6 @@ angular.module('blackjack').controller 'BlackjackCtrl', ($scope, $http, Blackjac
     $scope.roundNumber++
     $scope.blackjack = false
     $scope.fetchHands()
-    # $scope.updateBank().then($scope.fetchHands())
-    # $scope.fetchHands()
 
   $scope.updateBank = ->
     $http
@@ -158,7 +156,9 @@ angular.module('blackjack').controller 'BlackjackCtrl', ($scope, $http, Blackjac
 
   $scope.user = (user) ->
     $scope.currentUser = user
+    $scope.bank = user.bank
     $scope.setName = true if $scope.currentUser.name?
+    $scope.startGame()
 
   $scope.startGame = ->
     $scope.gameStarted = true

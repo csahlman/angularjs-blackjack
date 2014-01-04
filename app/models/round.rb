@@ -29,7 +29,6 @@ class Round < ActiveRecord::Base
   end
 
   def deal_card!(hand)
-    puts "#{hand.id} - #{self.cards_dealt}"
     card = self.cards[self.cards_dealt]
     hand.cards << card
     card.update_attribute(:round_id, nil)
