@@ -42,6 +42,7 @@ gem 'bcrypt-ruby', '~> 3.1.2'
 gem 'thin'
 
 group :production do 
+  gem 'rails_12factor'
   gem 'pg'
 end
 
