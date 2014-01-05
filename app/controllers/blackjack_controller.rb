@@ -19,6 +19,7 @@ class BlackjackController < ApplicationController
   def hit_me
     @hand = current_round.current_hand
     current_round.deal_card!(@hand)
+    current_round.end_hand! if @hand.score >= 21
   end
 
   def stand
@@ -30,6 +31,7 @@ class BlackjackController < ApplicationController
   def deal_dealer_hand
     @dealer_hand = current_round.run_out_dealer_board!
     current_round.evaluate_round!(@dealer_hand.score, current_user)
+    current_round.destroy_extra_cards!
     session[:round] = nil
   end
 

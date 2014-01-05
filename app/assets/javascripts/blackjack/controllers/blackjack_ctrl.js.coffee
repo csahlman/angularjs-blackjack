@@ -32,6 +32,8 @@ angular.module('blackjack').controller 'BlackjackCtrl', ($scope, $http, Blackjac
         $scope.dealDealerHand(false)
       $scope.countDown()
       $scope.nextHandTimer = $timeout($scope.nextHand, 6000)
+    else if $scope.midRound 
+      $scope.currentHandIndex++ if $scope.currentScore() >= 21
 
   $scope.countDown = ->
     timeoutTimer = $timeout($scope.countDown, 1000)
@@ -107,7 +109,8 @@ angular.module('blackjack').controller 'BlackjackCtrl', ($scope, $http, Blackjac
     .success (data) ->
       $scope.playerHands[$scope.currentHandIndex] = data[0]
       $scope.playerHands.splice($scope.currentHandIndex + 1, 0, data[1])
-      $scope.$apply()
+      $scope.currentHandIndex++ if $scope.currentScore() == 21
+      # $scope.$apply()
 
   $scope.currentHand = ->
     if $scope.playerHands[$scope.currentHandIndex]?
@@ -174,11 +177,18 @@ angular.module('blackjack').controller 'BlackjackCtrl', ($scope, $http, Blackjac
     .success (data) ->
       $scope.playerHands = [data.player_hand]
       $scope.blackjack = data.blackjack
-      $scope.currentHandIndex = 0
       $scope.dealerHand = data.dealer_hand
-      $scope.bank = data.bank
+      $scope.currentHandIndex = 0
       $scope.midRound = true
-      $scope.currentHandIndex++ if $scope.currentScore() >= 21
+      if $scope.dealerHand.blackjack
+        $scope.ceaseAction = true 
+        $scope.showDealerHand = true
+        $scope.dealDealerHand(true)
+        $scope.currentHandIndex++
+      else
+        $scope.bank = data.bank
+        $scope.currentHandIndex++ if $scope.currentScore() >= 21
+
 
   $scope.requestMoney = ->
     $http

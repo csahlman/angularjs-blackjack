@@ -67,12 +67,18 @@ class Round < ActiveRecord::Base
     user.update_attribute(:funds, user.funds + net_difference)
   end
 
+  def destroy_extra_cards!
+    self.cards.destroy_all 
+  end
+
   def split_hand!
     last_card = self.current_hand.cards.last
     last_hand = self.hands.create(user_id: current_hand.user_id, wager: current_hand.wager)
     last_card.update_attribute(:hand_id, last_hand.id)
     deal_card!(last_hand)
     deal_card!(current_hand)
+    last_hand.update_attribute(:blackjack, true) if last_hand.score == 21
+    current_hand.update_attribute(:blackjack, true) if current_hand.score == 21
     [current_hand, last_hand]
   end
 

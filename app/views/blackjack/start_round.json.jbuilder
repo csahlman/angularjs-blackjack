@@ -6,6 +6,7 @@ end
 
 json.dealer_hand do 
   json.cards [@dealer_hand.cards.last], :value, :suit
+  json.blackjack @dealer_hand.blackjack
 end
 
 json.bank current_user.funds
