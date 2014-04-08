@@ -1,4 +1,4 @@
-angular.module('blackjack', ['ngAnimate', 'ngCookies', 'ajoslin.promise-tracker'])
+angular.module('blackjack', ['ngAnimate', 'ngCookies'])
 
 angular.module('blackjack').config ($httpProvider) ->
   $httpProvider.defaults.transformRequest.push (data, headersGetter) ->
