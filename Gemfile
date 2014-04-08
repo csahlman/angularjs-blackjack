@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
 
+ruby '2.1.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.0.beta1'
+gem 'rails', '4.1.0.rc2'
 
 # Use sqlite3 as the database for Active Record
 group :development do 
@@ -24,6 +25,9 @@ gem 'coffee-rails', '~> 4.0.0'
 # Use jquery as the JavaScript library
 # gem 'jquery-rails'
 
+gem 'websocket-rails'
+
+
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 # gem 'turbolinks'
 
@@ -34,7 +38,7 @@ gem 'jbuilder', '~> 1.2'
 gem 'sdoc',          group: :doc, require: false
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/jonleighton/spring
-gem 'spring',        group: :development
+# gem 'spring',        group: :development
 
 # Use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.1.2'
